@@ -1,24 +1,36 @@
-import java.time.LocalDate;
+import java.util.HashMap;
 
+import static utils.BalanceSummaryHeaders.*;
 import static utils.DateFormater.dateFormat;
 
 public class AccountOperations {
 
-    private int operationAmount;
-    private String operationDate;
+    private final int operationAmount;
+    private final String operationDate;
+    private final int previousAccountBalance;
+    private final boolean isCreditOperation;
 
-    private boolean isCreditOperation;
-
-    public AccountOperations(int amount, String operationDate, boolean isCreditOperation) {
+    public AccountOperations(int amount, String operationDate, int amountBalance, boolean isCreditOperation) {
         this.operationAmount = amount;
         this.operationDate = dateFormat(operationDate);
+        this.previousAccountBalance = amountBalance;
         this.isCreditOperation = isCreditOperation;
     }
 
-    public String[] operationDetail() {
-        String creditValue = isCreditOperation ? String.valueOf(operationAmount) : "";
-        String debitValue = !isCreditOperation ? String.valueOf(operationAmount) : "";
-        return new String[]{operationDate, creditValue, debitValue};
+    public HashMap<String, String> operationDetail() {
+        HashMap<String, String> operationData = new HashMap<>();
+        operationData.put(DATE.toString(), this.operationDate);
+        operationData.put(amountType(), Integer.toString(this.operationAmount));
+        operationData.put(BALANCE.toString(), newAccountBalance());
+        return operationData;
+    }
+
+    private String amountType() {
+        return isCreditOperation ? CREDIT.toString() : DEBIT.toString();
+    }
+
+    private String newAccountBalance() {
+        return Integer.toString(previousAccountBalance + getOperationAmount());
     }
 
     public int getOperationAmount() {

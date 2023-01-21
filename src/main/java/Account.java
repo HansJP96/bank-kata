@@ -1,12 +1,15 @@
-import dnl.utils.text.table.TextTable;
+import utils.BalanceSummaryHeaders;
+import utils.PrintTable;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import static utils.EnumTransformer.arrayEnumValues;
 
 public class Account {
 
+    private final String[] accountSummaryTable = arrayEnumValues(BalanceSummaryHeaders.class);
     private final Person accountPerson;
     private int accountBalance = 0;
     private final List<AccountOperations> accountOperations = new ArrayList<>();
@@ -16,44 +19,38 @@ public class Account {
     }
 
     public void deposit(int amount, String operationDate) {
-        AccountOperations accountOperation = new AccountOperations(amount, operationDate, true);
+        AccountOperations accountOperation =
+                new AccountOperations(amount, operationDate, getAccountBalance(), true);
         accountOperations.add(accountOperation);
+        updateBalance(accountOperation);
     }
 
     public void withdraw(int amount, String operationDate) {
-        AccountOperations accountOperation = new AccountOperations(amount, operationDate, false);
+        AccountOperations accountOperation =
+                new AccountOperations(amount, operationDate, getAccountBalance(), false);
         accountOperations.add(accountOperation);
+        updateBalance(accountOperation);
     }
 
-    public void printStatements() {
-        String[] headerNames = {"Date", "Credit", "Debit", "Balance"};
-        int sucessfulOperations = accountOperations.size();
-        int numberHeader = headerNames.length;
-        Object[][] dataTable = fitDataTable(sucessfulOperations, numberHeader);
-        TextTable textTable = new TextTable(headerNames, dataTable);
-        tableFormat(textTable);
+    public void printStatement() {
+        PrintTable printTable = new PrintTable(accountSummaryTable, operations());
         System.out.println(accountPerson);
-        textTable.printTable();
+        printTable.print();
     }
 
-    private Object[][] fitDataTable(int amountOperations, int numberHeader){
-        Object[][] operations = new Object[amountOperations][numberHeader];
-        int counter = 0;
-        for (AccountOperations operation : accountOperations) {
-            this.accountBalance = accountBalance + operation.getOperationAmount();
-            operations[counter] = addOperationBalance(operation, numberHeader);
-            counter++;
+    private List<HashMap<String, String>> operations() {
+        List<HashMap<String, String>> listOperationData = new ArrayList<>();
+        for (AccountOperations operations : accountOperations) {
+            listOperationData.add(operations.operationDetail());
         }
-        return operations;
+        return listOperationData;
     }
 
-    private String[] addOperationBalance(AccountOperations operation, int numberHeader) {
-        String[] operationDetails = operation.operationDetail();
-        operationDetails = Arrays.copyOf(operationDetails, numberHeader);
-        operationDetails[numberHeader -1] = String.valueOf(accountBalance);
-        return operationDetails;
+    public void updateBalance(AccountOperations accountOperation) {
+        this.accountBalance = this.accountBalance + accountOperation.getOperationAmount();
     }
-    private void tableFormat(TextTable textTable){
-        textTable.setSort(0, SortOrder.DESCENDING);
+
+    public int getAccountBalance() {
+        return accountBalance;
     }
 }
