@@ -19,7 +19,7 @@ public class PrintTable {
         this.rowsNumber = rowData.size();
     }
 
-    public void print() {
+    public void showTable() {
         TextTable textTable = new TextTable(tableHeaders, transformRows());
         tableFormat(textTable);
         textTable.printTable();

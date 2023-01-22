@@ -35,7 +35,7 @@ public class Account {
     public void printStatement() {
         PrintTable printTable = new PrintTable(accountSummaryTable, operations());
         System.out.println(accountPerson);
-        printTable.print();
+        printTable.showTable();
     }
 
     private List<HashMap<String, String>> operations() {
