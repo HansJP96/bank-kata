@@ -1,7 +1,6 @@
 import java.util.HashMap;
 
 import static utils.BalanceSummaryHeaders.*;
-import static utils.DateFormater.dateFormat;
 
 public class AccountOperations {
 
@@ -12,7 +11,7 @@ public class AccountOperations {
 
     public AccountOperations(int amount, String operationDate, int amountBalance, boolean isCreditOperation) {
         this.operationAmount = amount;
-        this.operationDate = dateFormat(operationDate);
+        this.operationDate = operationDate;
         this.previousAccountBalance = amountBalance;
         this.isCreditOperation = isCreditOperation;
     }
