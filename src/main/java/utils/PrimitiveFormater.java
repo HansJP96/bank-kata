@@ -8,6 +8,9 @@ public class PrimitiveFormater {
     private static final DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    private PrimitiveFormater() {
+    }
+
     public static String dateFormat(String date){
         return LocalDate.parse(date, inputFormat).format(outputFormat);
     }

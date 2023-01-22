@@ -2,8 +2,8 @@ import utils.BalanceSummaryHeaders;
 import utils.PrintTable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static utils.EnumTransformer.arrayEnumValues;
 
@@ -38,8 +38,8 @@ public class Account {
         printTable.showTable();
     }
 
-    private List<HashMap<String, String>> operations() {
-        List<HashMap<String, String>> listOperationData = new ArrayList<>();
+    private List<Map<String, String>> operations() {
+        List<Map<String, String>> listOperationData = new ArrayList<>();
         for (AccountOperations operations : accountOperations) {
             listOperationData.add(operations.operationDetail());
         }

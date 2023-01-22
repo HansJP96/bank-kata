@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 import static utils.BalanceSummaryHeaders.*;
 
@@ -16,7 +17,7 @@ public class AccountOperations {
         this.isCreditOperation = isCreditOperation;
     }
 
-    public HashMap<String, String> operationDetail() {
+    public Map<String, String> operationDetail() {
         HashMap<String, String> operationData = new HashMap<>();
         operationData.put(DATE.toString(), this.operationDate);
         operationData.put(amountType(), String.valueOf(this.operationAmount));
