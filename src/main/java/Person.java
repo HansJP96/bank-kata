@@ -7,6 +7,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Account owner with ID:" + document;
+        return "Account owner with ID:" + this.document;
     }
 }

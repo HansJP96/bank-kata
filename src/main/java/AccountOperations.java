@@ -19,20 +19,20 @@ public class AccountOperations {
     public HashMap<String, String> operationDetail() {
         HashMap<String, String> operationData = new HashMap<>();
         operationData.put(DATE.toString(), this.operationDate);
-        operationData.put(amountType(), Integer.toString(this.operationAmount));
+        operationData.put(amountType(), String.valueOf(this.operationAmount));
         operationData.put(BALANCE.toString(), newAccountBalance());
         return operationData;
     }
 
     private String amountType() {
-        return isCreditOperation ? CREDIT.toString() : DEBIT.toString();
+        return this.isCreditOperation ? CREDIT.toString() : DEBIT.toString();
     }
 
     private String newAccountBalance() {
-        return Integer.toString(previousAccountBalance + getOperationAmount());
+        return String.valueOf(this.previousAccountBalance + getOperationAmount());
     }
 
     public int getOperationAmount() {
-        return isCreditOperation ? operationAmount : Math.negateExact(operationAmount);
+        return this.isCreditOperation ? this.operationAmount : Math.negateExact(this.operationAmount);
     }
 }
